@@ -9,6 +9,7 @@ const Header = () => {
       <div className="container text-center header">
         <div className="row">
           <div className="col nameHeaderContainer">
+            <i class="bi bi-calendar2-range-fill header-logo"></i>
             <Link to="/">
               <p className="nameHeader">GoalTracker</p>
             </Link>

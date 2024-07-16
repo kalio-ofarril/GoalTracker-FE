@@ -8,7 +8,7 @@
 }
 
 .nameHeaderContainer{
-    
+    display: flex;
 }
 
 .nameHeader{
@@ -27,4 +27,10 @@
     height: 3rem;
     padding-top: 0.25rem;
     text-align: end;
+}
+
+.header-logo{
+    color: #ff1b1c;
+    font-size: 1.5rem;
+    padding-top: 0.4rem;
 }

@@ -9,3 +9,12 @@
 .profile-component-container{
     background-color: #46454d;
 }
+
+.profile-username{
+    margin-top: 8%;
+}
+
+.logout-btn{
+    width: 7rem !important;
+    margin-top: 50%;
+}
