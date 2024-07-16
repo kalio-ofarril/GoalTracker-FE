@@ -1,0 +1,28 @@
+.calendar-day{
+    border: 0.11rem solid black;
+    height: 100%;
+    color: black;
+    /* background-color: #88928e; */
+    background-color: #D6CCC2;
+}
+
+.calendar-day-row{
+    height: 30%;
+}
+
+.calendar-day-completeness{
+    text-align-last: end;
+}
+
+.calendar-day-completeness-col{
+    width: 100% !important;
+    padding-right: 0.1rem !important;
+}
+
+.calendar-day-row-color{
+    height: 10%;
+}
+
+.calendar-day:hover{
+    background-color: #EDEDE9;
+}

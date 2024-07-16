@@ -1,0 +1,75 @@
+
+.calendar-container {
+    border-color: black;
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+    border-style: solid;
+    max-height: 100%;
+    /* overflow-y: 100%; */
+    background-color: #262626;
+    box-shadow: 0px 10px 15px black;
+}
+ 
+.calendar-body {
+    padding: 20px;
+}
+ 
+.calendar-body ul {
+    list-style: none;
+    flex-wrap: wrap;
+    display: flex;
+    text-align: center;
+}
+ 
+.calendar-body .calendar-dates {
+    margin-bottom: 0rem;
+}
+ 
+.calendar-body li {
+    width: calc(100% / 7);
+    font-size: 1.07rem;
+    color: #414141;
+}
+ 
+.calendar-body .calendar-weekdays li {
+    cursor: default;
+    font-weight: 500;
+    color: #D6CCC2;
+}
+ 
+.calendar-body .calendar-dates li {
+    height: 4.8rem;
+    position: relative;
+    z-index: 1;
+    cursor: pointer;
+}
+
+@media only screen and (max-height: 625px){
+    .calendar-body .calendar-dates li {
+        height: 3rem;
+    }
+
+    .calendar-holder{
+        overflow-y: auto;
+    }
+}
+
+
+.bi-calendar-month-selector{
+    color: #D6CCC2;
+    font-size: 1.5rem;
+}
+
+.bi-calendar-month-selector:hover{
+    color: #EDEDE9;
+    font-size: 1.5rem;
+}   
+
+.calendar-date-header{
+    font-size: 1.5rem;
+    color: #D6CCC2;
+    font-weight: 600;
+    margin: 0rem;
+    padding-top: 0.5rem;
+}

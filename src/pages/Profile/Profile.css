@@ -1,0 +1,11 @@
+.profile-content-container{    
+    height: 100%;
+}
+
+.profile-user-picture{
+    font-size: 12rem;
+}
+
+.profile-component-container{
+    background-color: #46454d;
+}

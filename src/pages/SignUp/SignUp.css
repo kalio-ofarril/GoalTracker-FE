@@ -1,0 +1,34 @@
+.signup-page{
+    padding-top: calc(10% - 3rem);;
+}
+
+.signup-container{
+    border-radius: 1rem;
+    background-color: #46454d;
+    width: 25rem !important;
+    height: 50%;
+    color: #D6CCC2;
+}
+
+.signup-form{
+    color: #D6CCC2 !important;
+    background-color: #46454d !important;
+    border: solid 0px black !important;
+}
+
+.signup-form-row{
+    margin-top: 0.5rem !important;
+}
+
+.signup-header{
+    padding-top: 1rem;
+}
+
+.signup-repeat-pwd{
+    margin-top: 0.6rem !important;
+}
+
+.signup-btn{
+    margin-top: 1rem;
+    width: 6rem;
+}
