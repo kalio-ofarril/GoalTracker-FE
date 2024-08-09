@@ -32,6 +32,16 @@ export function getCalendarData(userId){
                     "completeness": 100,
                     "activities": ["GYM", "Learning","Diet","Practice"]
                 }
+            },
+            "7": {
+                "25": {
+                    "completeness": 75,
+                    "activities": ["GYM", "Learning", "Diet"]
+                },
+                "27": {
+                    "completeness": 100,
+                    "activities": ["GYM", "Learning", "Diet","Practice"]
+                }
             }
         }
     };
