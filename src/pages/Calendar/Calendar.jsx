@@ -1,21 +1,25 @@
 import "./Calendar.css";
 
-import { useEffect } from "react";
-import { useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import CalendarDay from "../../components/CalendarDay/CalendarDay";
-import { getCalendarData } from "../../api/calendarApi";
-import { Link, useNavigate } from "react-router-dom";
+import { getMonthData } from "../../api/calendarApi";
+import { useNavigate } from "react-router-dom";
+import { CalendarContext } from "../../utils/CalendarContext";
 
 const Calendar = ({ updateDate }) => {
-  const [month, setMonth] = useState("July");
-  const [year, setYear] = useState("2024");
-  const [calendarMonth, setCalendarMonth] = useState([]);
-  const [calendarData, setCalendarData] = useState({});
-  const navigate = useNavigate();
+  const [monthName, setMonthName] = useState();
+
+  const { modal, monthNumber, yearNumber, renderer, calendar } =
+    useContext(CalendarContext);
+  const [showModal, setShowModal] = modal;
+  const [month, setMonth] = monthNumber;
+  const [year, setYear] = yearNumber;
+  const [render, setRender] = renderer;
+  const [calendarMonth, setCalendarMonth] = calendar;
 
   useEffect(() => {
     createCalendarMonth();
-  }, []);
+  }, [month, year, render]);
 
   // Array of month names
   const months = [
@@ -33,105 +37,188 @@ const Calendar = ({ updateDate }) => {
     "December",
   ];
 
-  // Function to generate the calendar
+  const subtractMonth = () => {
+    if (month == 0) {
+      setMonth(11);
+      setYear(year - 1);
+    } else {
+      setMonth(month - 1);
+    }
+  };
+
+  const addMonth = () => {
+    if (month == 11) {
+      setMonth(0);
+      setYear(year + 1);
+    } else {
+      setMonth(month + 1);
+    }
+  };
+
+  function formatDate(date) {
+    var d = new Date(date),
+      month = "" + (d.getMonth() + 1),
+      day = "" + d.getDate(),
+      year = d.getFullYear();
+
+    if (month.length < 2) month = "0" + month;
+    if (day.length < 2) day = "0" + day;
+
+    return [year, month, day].join("-");
+  }
+
   const createCalendarMonth = () => {
-    let date = new Date();
-    let year = date.getFullYear();
-    let month = date.getMonth();
-
-    // Get the first day of the month
     let dayone = new Date(year, month, 1).getDay();
-
-    // Get the last date of the month
     let lastdate = new Date(year, month + 1, 0).getDate();
-
-    // Get the day of the last date of the month
-    let dayend = new Date(year, month, lastdate).getDay();
-
-    // Get the last date of the previous month
-    let monthlastdate = new Date(year, month, 0).getDate();
-
     let monthDayCounter = 1;
 
-    let monthArray = [];
-    let week1 = [];
+    let monthDatesArray = [];
+    let week1Dates = [];
+    let nextMonthDates;
+
+    let firstDay = new Date(year, month, 1);
+    let lastMonthDates = new Date(year, month, 1);
+    lastMonthDates.setDate(lastMonthDates.getDate() - dayone);
+
+    if (firstDay.getMonth() == 11) {
+      nextMonthDates = new Date(year + 1, 0, 1);
+    } else {
+      nextMonthDates = new Date(year, month + 1, 1);
+    }
 
     for (let i = 0; i < dayone; i++) {
-      week1.push("");
+      week1Dates.push(new Date(lastMonthDates));
+      lastMonthDates.setDate(lastMonthDates.getDate() + 1);
     }
-    while (week1.length < 7) {
-      week1.push(monthDayCounter);
+    while (week1Dates.length < 7) {
+      week1Dates.push(new Date(firstDay));
+      firstDay.setDate(firstDay.getDate() + 1);
       monthDayCounter++;
     }
-
-    monthArray.push(week1);
+    monthDatesArray.push(week1Dates);
 
     while (monthDayCounter < lastdate) {
       let weekDayCounter = 0;
-      let week = [];
+      let weekDates = [];
       while (weekDayCounter < 7) {
         if (monthDayCounter > lastdate) {
-          week.push("");
+          weekDates.push(new Date(nextMonthDates));
+          nextMonthDates.setDate(nextMonthDates.getDate() + 1);
         } else {
-          week.push(monthDayCounter);
+          weekDates.push(new Date(firstDay));
+          firstDay.setDate(firstDay.getDate() + 1);
         }
-
         weekDayCounter++;
         monthDayCounter++;
       }
-      monthArray.push(week);
+      monthDatesArray.push(weekDates);
     }
 
-    let cData = getCalendarData();
+    getMonthData(localStorage.userId, month + 1, year).then((res) => {
+      let calendarMonthData = [];
+      let calendarData = {};
 
-    setCalendarData(cData);
-
-    monthArray.forEach((week) => {
-      week.forEach((day, index) => {
-        if (
-          cData[year.toString()][month.toString()][day.toString()] ==
-            undefined ||
-          day == ""
-        ) {
-          let dayData = {
-            activities: [],
-            completeness: day == "" ? "" : 0,
-            day: day,
-          };
-          week[index] = dayData;
-        } else {
-          let dayData = {
-            ...cData[year.toString()][month.toString()][day.toString()],
-            day: day,
-          };
-          week[index] = dayData;
-        }
+      monthDatesArray.forEach((week) => {
+        week.forEach((day) => {
+          if (res.data.length != 0) {
+            res.data.forEach((resDay) => {
+              let dayData = new Date(resDay.activityDate);
+              dayData.setDate(dayData.getDate() + 1);
+              dayData = dayData.toDateString();
+              if (dayData == day.toDateString()) {
+                resDay.activities = resDay.activities.split(",");
+                resDay.completeness =
+                  (resDay.activities.length /
+                    resDay.goalActivities.split(",").length) *
+                  100;
+                resDay.otherMonth =
+                  month + 1 == resDay.activityDate.split("-")[1]
+                    ? ""
+                    : "other-month-day";
+                calendarData[day.toDateString()] = resDay;
+              } else {
+                if (!(day.toDateString() in calendarData)) {
+                  calendarData[day.toDateString()] = {
+                    activityDate: formatDate(day.toDateString()),
+                    activities: [],
+                    comments: "",
+                    completeness: 0,
+                    otherMonth:
+                      month + 1 == formatDate(day.toDateString()).split("-")[1]
+                        ? ""
+                        : "other-month-day",
+                  };
+                }
+              }
+            });
+          } else {
+            calendarData[day.toDateString()] = {
+              activityDate: formatDate(day.toDateString()),
+              activities: [],
+              comments: "",
+              completeness: 0,
+              otherMonth:
+                month + 1 == formatDate(day.toDateString()).split("-")[1]
+                  ? ""
+                  : "other-month-day",
+            };
+          }
+        });
       });
+
+      monthDatesArray.forEach((week) => {
+        let calendarWeekData = [];
+        week.forEach((day) => {
+          calendarWeekData.push(calendarData[day.toDateString()]);
+        });
+        calendarMonthData.push(calendarWeekData);
+      });
+      setCalendarMonth(calendarMonthData);
     });
 
-    setCalendarMonth(monthArray);
-    setMonth(months[month]);
+    setMonthName(months[month]);
+    setYear(year);
   };
 
-  // const updateCurrentDate = (day, month, year) => {
-  //   console.log(day);
-  //   console.log(month);
-  //   console.log(year);
-  //   //<Link to={`/?day=${day}&month=${month}&year=${year}`} />;
-  // };
+  const openGoalActivitiesModal = () => {
+    setShowModal(true);
+  };
 
   return (
     <div className="calendar-container">
       <div className="container text-center">
-        <div className="row align-items-center">
-          <p className="col-12 calendar-date-header">{month + " " + year}</p>
+        <div className="row align-items-center calendar-header-row">
+          <p className="col-sm-12 col-md-8 calendar-date-header">
+            {monthName + " " + year}
+          </p>
+          <span className="col-sm-12 col-md-4 calendar-date-btn-header">
+            <button
+              type="button"
+              className="btn btn-info day-details-btn add-goal-activities-calendar-btn"
+              onClick={openGoalActivitiesModal}
+            >
+              Add Goal Avtivities
+            </button>
+          </span>
         </div>
         <div className="row justify-content-between">
-          <div id="calendar-prev" className="col-1">
-            <i className="bi bi-caret-left-square-fill bi-calendar-month-selector"></i>
+          <div
+            id="calendar-prev"
+            className="col-1 calendar-month-change-btn-left"
+          >
+            <i
+              className="bi bi-caret-left-square-fill bi-calendar-month-selector"
+              onClick={subtractMonth}
+            ></i>
           </div>
-          <div id="calendar-next" className="col-1">
-            <i className="bi bi-caret-right-square-fill bi-calendar-month-selector"></i>
+          <div
+            id="calendar-next"
+            className="col-1 calendar-month-change-btn-right"
+          >
+            <i
+              className="bi bi-caret-right-square-fill bi-calendar-month-selector"
+              onClick={addMonth}
+            ></i>
           </div>
         </div>
       </div>
@@ -149,16 +236,20 @@ const Calendar = ({ updateDate }) => {
           </ul>
         </div>
         <div className="row align-items-center">
-          {calendarMonth.map((week) => {
+          {calendarMonth.map((week, index) => {
             return (
-              <ul className="calendar-dates">
+              <ul className="calendar-dates" key={"ul_" + index}>
                 {week.map((day) => {
                   return (
                     <li
-                      key={"li_" + month + "_" + day.day}
-                      onClick={() => updateDate(day.day, month, year)}
+                      key={"li_" + day.activityDate}
+                      onClick={() => updateDate(day.activityDate)}
                     >
-                      <CalendarDay day={day} key={month + "_" + day.day} />
+                      <CalendarDay
+                        day={day}
+                        key={day.activityDate}
+                        otherMonth={day.otherMonth}
+                      />
                     </li>
                   );
                 })}

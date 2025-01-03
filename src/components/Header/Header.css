@@ -16,6 +16,7 @@
     color: #D6CCC2;
     text-align: initial;
     font-weight: 700;
+    padding-left: 0.3rem;
 }
 
 .bi-profile{
@@ -33,4 +34,15 @@
     color: #ff1b1c;
     font-size: 1.5rem;
     padding-top: 0.4rem;
+}
+
+.nameHeaderContainer{
+    cursor: pointer;
+}
+
+.header-dropdown-btn{
+    height: 100%;
+    padding: 0rem !important;
+    background-color: transparent !important;
+    border: transparent !important;
 }

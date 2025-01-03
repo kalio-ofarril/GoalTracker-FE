@@ -1,33 +1,50 @@
-import { useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useAuth } from "../../hooks/AuthProvider";
+import { GoogleLogin } from "@react-oauth/google";
+import { jwtDecode } from "jwt-decode";
 
 import "./SignUp.css";
+import { Link } from "react-router-dom";
 
 const SignUp = () => {
-  const [input, setInput] = useState({
+  const auth = useAuth();
+  const input = useRef({
     email: "",
     password: "",
   });
+  const [error, setError] = useState(" ");
 
-  const auth = useAuth();
+  useEffect(() => {
+    setError(auth.error);
+  }, [auth]);
 
   const handleSubmitEvent = (e) => {
-    console.log(input);
-    console.log(e);
     e.preventDefault();
-    if (input.email !== "" && input.password !== "") {
-      auth.loginAction(input);
+    if (input.current.email !== "" && input.current.password !== "") {
+      auth.signUpAction(input.current);
       return;
     }
-    alert("pleae provide a valid input");
   };
 
   const handleInput = (e) => {
     const { name, value } = e.target;
-    setInput((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    input.current[name] = value;
+  };
+
+  const onSuccess = (res) => {
+    const decoded = jwtDecode(res.credential);
+    if (decoded.email_verified) {
+      auth.signUpGoogleAction(decoded.email);
+    }
+    return;
+  };
+
+  const onFailure = (res) => {
+    console.log("Fail");
+    console.log(res);
+    console.log(res.credential);
+    const decoded = jwtDecode(res.credential);
+    console.log(decoded);
   };
 
   return (
@@ -82,13 +99,32 @@ const SignUp = () => {
                   </div>
                 </div>
               </div>
-              <button
-                className="btn btn-success day-details-btn signup-btn"
-                onClick={handleSubmitEvent}
-              >
-                Sign Up
-              </button>
+              <div className="row justify-content-center login-form-row">
+                <div className="login-error-msg">{error}</div>
+              </div>
+              <div className="login-buttons-container">
+                <button
+                  className="btn btn-success day-details-btn login-btn"
+                  onClick={handleSubmitEvent}
+                >
+                  Sign Up
+                </button>
+                <GoogleLogin
+                  className="login-btn"
+                  onSuccess={onSuccess}
+                  onError={onFailure}
+                  // cookiePolicy={"single_host_origin"}
+                  // isSignedIn={true}
+                />
+              </div>
             </form>
+            <div className="row">
+              <div className="col login-signup-link">
+                <p>
+                  Already have an account? Login <Link to="/login">here</Link>.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>

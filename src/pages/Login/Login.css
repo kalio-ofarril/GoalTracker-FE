@@ -6,7 +6,8 @@
     border-radius: 1rem;
     background-color: #46454d;
     width: 25rem !important;
-    height: 50%;
+    /* height: 55%; */
+    height: auto;
     color: #D6CCC2;
 }
 
@@ -25,10 +26,25 @@
 }
 
 .login-btn{
-    margin-top: 2rem;
-    width: 6rem;
+    margin-top: 2rem !important;
+    width: 100%;
+    margin-bottom: 0.75rem;
 }
 
 .login-signup-link{
     margin-top: 1rem !important;
+}
+
+.login-buttons-container{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    margin-left: 25%;
+}
+
+.login-error-msg{
+    margin-top: 1rem;
+    font-size: 1.1rem;
+    color: #e73838;
+    text-shadow: -0.2px 0 black, 0 0.2px black, 0.2px 0 black, 0 -0.2px black;
 }

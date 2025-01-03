@@ -3,10 +3,22 @@
 }
 
 .detail-holder-top{
-    height: 70%;
-    padding-top: 2rem;
+    height: 50%;
+    padding-top: 1rem;
 }
 
 .detail-holder-bottom{
-    height: 30%;
+    height: 50%;
+}
+
+@media only screen and (max-height: 625px){
+   
+    .detail-holder-bottom{
+        padding-top: 4rem;
+        height: 80%;
+    }
+
+    #html{
+        background-color: #46454d;
+    }
 }

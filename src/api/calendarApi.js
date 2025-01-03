@@ -1,68 +1,83 @@
-export function getCalendarData(userId){
-    let calendarData = {
-        "2024": {
-            "5": {
-                "25": {
-                    "completeness": 75,
-                    "activities": ["GYM", "Learning", "Diet"]
-                },
-                "27": {
-                    "completeness": 100,
-                    "activities": ["GYM", "Learning", "Diet","Practice"]
-                }
-            },
-            "6": {
-                "1": {
-                    "completeness": 0,
-                    "activities": []
-                },
-                "2": {
-                    "completeness": 75,
-                    "activities": ["GYM", "Diet","Practice"]
-                },
-                "3": {
-                    "completeness": 75,
-                    "activities": ["GYM", "Diet","Practice"]
-                },
-                "4": {
-                    "completeness": 100,
-                    "activities": ["GYM", "Learning","Diet","Practice"]
-                },
-                "10": {
-                    "completeness": 100,
-                    "activities": ["GYM", "Learning","Diet","Practice"]
-                }
-            },
-            "7": {
-                "25": {
-                    "completeness": 75,
-                    "activities": ["GYM", "Learning", "Diet"]
-                },
-                "27": {
-                    "completeness": 100,
-                    "activities": ["GYM", "Learning", "Diet","Practice"]
-                }
-            }
-        }
-    };
+import axios from "axios";
 
-    return calendarData;
-}
+const getMonthData = async (userId, month, year) => {
+  return await axios.get(
+    `${
+      import.meta.env.VITE_GOAL_TRACKER_BE_URL
+    }/calendar/getMonthData?userId=${userId}&monthNumber=${month}&yearNumber=${year}`,
+    {
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json;charset=UTF-8",
+      },
+    }
+  );
+};
 
-export function getMonthActivities(userId, month){
+const getDayActivities = async (userId, date) => {
+  date = date == "" ? new Date() : new Date(date);
+  return await axios.get(
+    `${
+      import.meta.env.VITE_GOAL_TRACKER_BE_URL
+    }/calendar/getDayActivities?userId=${userId}&month=${
+      date.getMonth() + 1
+    }&year=${date.getFullYear()}&day=${date.getDate()}`,
+    {
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json;charset=UTF-8",
+      },
+    }
+  );
+};
 
-    let monthActivities = [
-        "Gym",
-        "Diet",
-        "Learning",
-        "Practice",
-        "Practice",
-        "Practice",
-        "Practice",
-        "Practice",
-        "Practice",
-        "Practice"
-    ]
+const setGoalActivities = async (activityArray) => {
+  return await axios.post(
+    `${import.meta.env.VITE_GOAL_TRACKER_BE_URL}/calendar/setActivities`,
+    activityArray,
+    {
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json;charset=UTF-8",
+      },
+    }
+  );
+};
 
-    return monthActivities;
-}
+const getDayData = async (userId, date) => {
+  date = date == "" ? new Date() : new Date(date);
+  return await axios.get(
+    `${
+      import.meta.env.VITE_GOAL_TRACKER_BE_URL
+    }/calendar/getDayData?userId=${userId}&month=${
+      date.getMonth() + 1
+    }&year=${date.getFullYear()}&day=${date.getDate()}`,
+    {
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json;charset=UTF-8",
+      },
+    }
+  );
+};
+
+const createDailyEntry = async (dayData) => {
+  return await axios.post(
+    `${import.meta.env.VITE_GOAL_TRACKER_BE_URL}/calendar/createDailyEntry`,
+    dayData,
+    {
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json;charset=UTF-8",
+      },
+    }
+  );
+};
+
+export {
+  getMonthData,
+  getDayActivities,
+  setGoalActivities,
+  getDayData,
+  createDailyEntry,
+};

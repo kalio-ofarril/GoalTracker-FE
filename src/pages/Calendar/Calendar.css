@@ -45,17 +45,6 @@
     cursor: pointer;
 }
 
-@media only screen and (max-height: 625px){
-    .calendar-body .calendar-dates li {
-        height: 3rem;
-    }
-
-    .calendar-holder{
-        overflow-y: auto;
-    }
-}
-
-
 .bi-calendar-month-selector{
     color: #D6CCC2;
     font-size: 1.5rem;
@@ -67,9 +56,51 @@
 }   
 
 .calendar-date-header{
-    font-size: 1.5rem;
+    font-size: 2rem;
     color: #D6CCC2;
     font-weight: 600;
     margin: 0rem;
     padding-top: 0.5rem;
+    text-align: initial;
+}
+
+.add-goal-activities-calendar-btn{
+    width: 11rem;
+    margin: 0rem !important;
+}
+
+.calendar-date-btn-header{
+    padding-top: 0.5rem;
+    display: flex;
+    justify-content: end;
+    padding-right: 3.5rem !important;
+}
+
+.calendar-header-row{
+    margin-bottom: 1.5rem;
+}
+
+@media only screen and (max-height: 625px){
+    .calendar-body .calendar-dates li {
+        height: 3rem;
+    }
+
+    .calendar-holder{
+        overflow-y: auto;
+    }
+
+    .calendar-date-header{
+        text-align: center;
+    }
+
+    .calendar-month-change-btn-left{
+        padding: 0rem !important;
+        padding-left: 0.5rem !important;
+    }
+
+    .calendar-month-change-btn-right{
+        padding: 0rem !important;
+        padding-right: 2rem !important;
+    }
+    
 }

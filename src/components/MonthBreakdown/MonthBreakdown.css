@@ -1,0 +1,18 @@
+.monthbreakdown-tab-container{
+    height: 80%;
+}
+
+.tab-content{
+    height: 85%;
+    display: flex;
+    justify-content: center;
+}
+
+.tab-pane{
+    height: 100%;
+}
+
+.pie-chart{
+    height: 100% !important;
+    width: 100% !important;
+}

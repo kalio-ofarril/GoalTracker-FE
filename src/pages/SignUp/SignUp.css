@@ -6,7 +6,8 @@
     border-radius: 1rem;
     background-color: #46454d;
     width: 25rem !important;
-    height: 50%;
+    /* height: 55%; */
+    height: auto;
     color: #D6CCC2;
 }
 
@@ -28,7 +29,19 @@
     margin-top: 0.6rem !important;
 }
 
-.signup-btn{
-    margin-top: 1rem;
-    width: 6rem;
+.login-signup-link{
+    margin-top: 1rem !important;
+}
+
+.login-buttons-container{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    margin-left: 25%;
+}
+
+.login-btn{
+    margin-top: 2rem !important;
+    width: 100%;
+    margin-bottom: 0.75rem;
 }

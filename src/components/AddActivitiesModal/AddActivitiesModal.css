@@ -1,0 +1,16 @@
+.add-activity-modal-add-activity-btn-col{
+    display: flex;
+    justify-content: end;
+    padding-right: 2rem;
+}
+
+.add-activity-modal-add-activity-btn{
+    height: 1.5rem;
+    font-size: 0.8rem !important;
+    display: flex;
+    padding-top: 0.1rem !important;
+}
+
+.add-activity-modal-add-activity-btn-icon{
+    padding-left: 0.5rem;
+}

@@ -22,7 +22,7 @@
 }
 
 .day-details-header{
-    margin-bottom: 1.3rem;
+    margin-bottom: 0.5rem;
 }
 
 .day-details-btn{
@@ -35,4 +35,8 @@
 
 .activity-save-btn{
     width: 6rem;
+}
+
+.add-goal-activities-month-btn{
+    width: 15rem;
 }

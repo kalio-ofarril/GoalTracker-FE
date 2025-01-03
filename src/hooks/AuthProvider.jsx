@@ -1,54 +1,113 @@
-import { useContext, createContext, useState } from "react";
+import { useContext, createContext, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+
+import { login, signUp, signUpGoogle, loginGoogle } from "../api/userApi";
 
 const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
+  const [error, setError] = useState("");
   const [user, setUser] = useState(null);
-  const [token, setToken] = useState(localStorage.getItem("site") || "");
+  const [token, setToken] = useState(localStorage.getItem("token") || "");
 
   const navigate = useNavigate();
 
-  const loginAction = async (data) => {
-    console.log(data);
+  const loginAction = (data) => {
+    login(data.email, data.password)
+      .then((res) => {
+        setError(" ");
+        setUser(res.data.userId);
+        setToken("goalTracker");
+        localStorage.setItem("email", res.data.email);
+        localStorage.setItem("userId", res.data.userId);
+        localStorage.setItem("token", "goalTrackerToken");
+        localStorage.setItem("login", new Date());
+        navigate("/");
+        return;
+      })
+      .catch((res) => {
+        loginError(res.response.data);
+      });
+  };
 
-    // try {
-    //   const response = await fetch("your-api-endpoint/auth/login", {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify(data),
-    //   });
-    //   const res = await response.json();
-    //   if (res.data) {
-    //     setUser(res.data.user);
-    //     setToken(res.token);
-    //     localStorage.setItem("site", res.token);
-    //     navigate("/dashboard");
-    //     return;
-    //   }
-    //   throw new Error(res.message);
-    // } catch (err) {
-    //   console.error(err);
-    // }
+  const loginGoogleAction = (data) => {
+    loginGoogle(data)
+      .then((res) => {
+        setError(" ");
+        setUser(res.data.userId);
+        setToken("goalTracker");
+        localStorage.setItem("email", res.data.email);
+        localStorage.setItem("userId", res.data.userId);
+        localStorage.setItem("token", "goalTrackerToken");
+        localStorage.setItem("login", new Date());
+        navigate("/");
+        return;
+      })
+      .catch((res) => {
+        loginError(res.response.data);
+      });
+  };
 
-    setUser(data.email);
-    setToken("golaTrackerToken");
-    localStorage.setItem("site", "golaTrackerToken");
-    navigate("/");
-    return;
+  const signUpAction = async (data) => {
+    signUp(data.email, data.password)
+      .then((res) => {
+        setError(" ");
+        setUser(res.data.userId);
+        setToken("goalTracker");
+        localStorage.setItem("email", res.data.email);
+        localStorage.setItem("userId", res.data.userId);
+        localStorage.setItem("token", "goalTrackerToken");
+        localStorage.setItem("login", new Date());
+        navigate("/");
+        return;
+      })
+      .catch((res) => {
+        loginError(res.response.data);
+      });
+  };
+
+  const signUpGoogleAction = async (data) => {
+    signUpGoogle(data)
+      .then((res) => {
+        setError(" ");
+        setUser(res.data.userId);
+        setToken("goalTracker");
+        localStorage.setItem("email", res.data.email);
+        localStorage.setItem("userId", res.data.userId);
+        localStorage.setItem("token", "goalTrackerToken");
+        localStorage.setItem("login", new Date());
+        navigate("/");
+        return;
+      })
+      .catch((res) => {
+        loginError(res.response.data);
+      });
   };
 
   const logOut = () => {
     setUser(null);
     setToken("");
-    localStorage.removeItem("site");
+    localStorage.removeItem("token");
     navigate("/login");
   };
 
+  const loginError = (msg) => {
+    setError(msg);
+  };
+
   return (
-    <AuthContext.Provider value={{ token, user, loginAction, logOut }}>
+    <AuthContext.Provider
+      value={{
+        token,
+        user,
+        error,
+        loginAction,
+        logOut,
+        signUpAction,
+        signUpGoogleAction,
+        loginGoogleAction,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

@@ -26,3 +26,40 @@
 .calendar-day:hover{
     background-color: #EDEDE9;
 }
+
+.other-month-day{
+    background-color: #b4b0ad;
+}
+
+.calendar-day-activity-letter-container{
+    flex-direction: row;
+    display: flex;
+}
+
+.calendar-day-activity-letter{
+    width: 1.3rem;
+    display: block;
+    border-radius: 50%;
+    height: 1.3rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    opacity: 0.9;
+}
+
+@media only screen and (max-height: 625px){
+   
+    .calendar-day-completeness{
+        display: none !important;
+    }
+
+    .calendar-day-activity-letter-container-row{
+        padding-top: 0.5rem;
+    }
+
+    .calendar-day-activity-letter{
+        height: 1rem;
+        border-radius: 0.6rem;
+        line-height: 0.9rem;
+    }
+
+}

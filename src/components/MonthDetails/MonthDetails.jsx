@@ -4,9 +4,6 @@ import MonthBreakdown from "../MonthBreakdown/MonthBreakdown";
 import "./MonthDetails.css";
 
 const MonthDetails = (props) => {
-  useEffect(() => {
-    console.log(props);
-  }, []);
 
   return (
     <div className="container text-center fullHeight">
