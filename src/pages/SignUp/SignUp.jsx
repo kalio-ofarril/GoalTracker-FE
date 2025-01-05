@@ -60,10 +60,10 @@ const SignUp = () => {
             <form>
               <div className="form-control signup-form">
                 <div className="row justify-content-center signup-form-row">
-                  <div className="col-2">
+                  <div className="col-md-2">
                     <label htmlFor="user-email">Email:</label>
                   </div>
-                  <div className="col-8">
+                  <div className="col-md-8">
                     <input
                       type="email"
                       id="user-email"
@@ -73,10 +73,10 @@ const SignUp = () => {
                   </div>
                 </div>
                 <div className="row justify-content-center signup-form-row">
-                  <div className="col-2">
+                  <div className="col-md-2">
                     <label htmlFor="password">Password:</label>
                   </div>
-                  <div className="col-8">
+                  <div className="col-md-8">
                     <input
                       type="password"
                       id="password"
@@ -86,10 +86,10 @@ const SignUp = () => {
                   </div>
                 </div>
                 <div className="row justify-content-center signup-form-row">
-                  <div className="col-2">
+                  <div className="col-md-2">
                     <label htmlFor="password">Repeat Password:</label>
                   </div>
-                  <div className="col-8 signup-repeat-pwd">
+                  <div className="col-md-8 signup-repeat-pwd">
                     <input
                       type="password"
                       id="password"

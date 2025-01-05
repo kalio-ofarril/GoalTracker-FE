@@ -56,10 +56,10 @@ const Login = () => {
             <form>
               <div className="form-control login-form">
                 <div className="row justify-content-center login-form-row">
-                  <div className="col-2">
+                  <div className="col-md-2">
                     <label htmlFor="user-email">Email:</label>
                   </div>
-                  <div className="col-8">
+                  <div className="col-md-8">
                     <input
                       type="email"
                       id="user-email"
@@ -69,10 +69,10 @@ const Login = () => {
                   </div>
                 </div>
                 <div className="row justify-content-center login-form-row">
-                  <div className="col-2">
+                  <div className="col-md-2">
                     <label htmlFor="password">Password:</label>
                   </div>
-                  <div className="col-8">
+                  <div className="col-md-8">
                     <input
                       type="password"
                       id="password"

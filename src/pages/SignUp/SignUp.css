@@ -45,3 +45,13 @@
     width: 100%;
     margin-bottom: 0.75rem;
 }
+
+@media only screen and (max-width: 810px){
+    .signup-page{
+        padding-top: 3rem;
+    }
+
+    .signup-container{
+        max-width: 90%;
+    }
+}

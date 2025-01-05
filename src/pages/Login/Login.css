@@ -48,3 +48,13 @@
     color: #e73838;
     text-shadow: -0.2px 0 black, 0 0.2px black, 0.2px 0 black, 0 -0.2px black;
 }
+
+@media only screen and (max-width: 810px){
+    .login-page{
+        padding-top: 3rem;
+    }
+
+    .login-container{
+        max-width: 90%;
+    }
+}

@@ -80,7 +80,8 @@
     margin-bottom: 1.5rem;
 }
 
-@media only screen and (max-height: 625px){
+@media only screen and (max-width: 810px){
+
     .calendar-body .calendar-dates li {
         height: 3rem;
     }
@@ -91,6 +92,13 @@
 
     .calendar-date-header{
         text-align: center;
+    }
+
+    .calendar-date-btn-header{
+        display: flex;
+        padding: 0rem !important;
+        justify-content: center;
+        padding-top: 1rem !important;
     }
 
     .calendar-month-change-btn-left{

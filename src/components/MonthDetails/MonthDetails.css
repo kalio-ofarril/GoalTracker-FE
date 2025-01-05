@@ -11,7 +11,7 @@
     height: 50%;
 }
 
-@media only screen and (max-height: 625px){
+@media only screen and (max-width: 850){
    
     .detail-holder-bottom{
         padding-top: 4rem;

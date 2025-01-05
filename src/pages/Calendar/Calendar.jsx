@@ -128,9 +128,11 @@ const Calendar = ({ updateDate }) => {
               if (dayData == day.toDateString()) {
                 resDay.activities = resDay.activities.split(",");
                 resDay.completeness =
-                  (resDay.activities.length /
-                    resDay.goalActivities.split(",").length) *
-                  100;
+                  resDay.activities == ""
+                    ? 0
+                    : (resDay.activities.length /
+                        resDay.goalActivities.split(",").length) *
+                      100;
                 resDay.otherMonth =
                   month + 1 == resDay.activityDate.split("-")[1]
                     ? ""
