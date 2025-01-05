@@ -30,14 +30,18 @@ const PieChart = (props) => {
     calendarMonth.forEach((week) => {
       week.forEach((day) => {
         day.activities.forEach((activity) => {
-          if (activity in activities) {
-            activities[activity] += 1;
-          } else {
-            activities[activity] = 1;
+          if (activity != "") {
+            if (activity in activities) {
+              activities[activity] += 1;
+            } else {
+              activities[activity] = 1;
+            }
           }
         });
       });
     });
+
+    console.log(activities);
 
     let colors = [];
     let labels = [];

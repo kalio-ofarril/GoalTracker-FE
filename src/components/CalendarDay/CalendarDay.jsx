@@ -1,11 +1,6 @@
 import "./CalendarDay.css";
 
 const CalendarDay = (props) => {
-  console.log(props);
-  props.day.activities.map((activity) => {
-    console.log(activity);
-    console.log(activity.length);
-  });
 
   const calendarStyle = {
     backgroundColor: "hsla(" + props.day.completeness + ", 100%, 60%, 1)",
