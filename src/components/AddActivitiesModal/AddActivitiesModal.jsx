@@ -37,12 +37,15 @@ const AddActivitiesModal = () => {
       let endDate = new Date(event.target[2].value);
       endDate.setDate(endDate.getDate() + 1);
 
+      console.log(event);
+
       let activities = "";
       let goalActivityArray = [];
       goalsArray.forEach((goalNumber) => {
         activities =
           activities +
           event.target[3 + (2 * goalNumber - 1)].value
+            .trim()
             .replace(",", ";")
             .replace("#", "") +
           event.target[3 + (2 * goalNumber - 1) + 1].value +

@@ -41,8 +41,6 @@ const PieChart = (props) => {
       });
     });
 
-    console.log(activities);
-
     let colors = [];
     let labels = [];
     let data = [];

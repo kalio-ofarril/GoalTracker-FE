@@ -17,8 +17,33 @@
     margin-right: -4rem;
 }
 
+.activity-checkbox-div{
+    align-items: center;
+}
+
+.calendar-day-detail-btn-container{
+    padding-right: 2rem !important;
+}
+
 .activity-checkbox-div:hover{
     background-color: #7c7b83;
+}
+
+.calendar-day-activity-label{
+    height: 2rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+    text-shadow: 1px 0px 10px black;
+}
+
+.calenday-day-detail-delete-activity-btn{
+    float: right;
+    padding-top: 0rem !important;
+    padding-bottom: 0rem !important; 
+}
+
+.calenday-day-detail-delete-activity-btn-icon{
+
 }
 
 .day-details-header{

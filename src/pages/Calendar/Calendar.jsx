@@ -126,13 +126,21 @@ const Calendar = ({ updateDate }) => {
               dayData.setDate(dayData.getDate() + 1);
               dayData = dayData.toDateString();
               if (dayData == day.toDateString()) {
-                resDay.activities = resDay.activities.split(",");
+                let createdActivities = [];
+                resDay.activities.split(",").forEach((act) => {
+                  if (resDay.goalActivities.split(",").includes(act)) {
+                    createdActivities.push(act);
+                  }
+                });
+                resDay.activities = createdActivities;
                 resDay.completeness =
-                  resDay.activities == ""
+                  resDay.activities == [] || resDay.activities == ""
                     ? 0
-                    : (resDay.activities.length /
-                        resDay.goalActivities.split(",").length) *
-                      100;
+                    : Math.round(
+                        (resDay.activities.length /
+                          resDay.goalActivities.split(",").length) *
+                          100
+                      );
                 resDay.otherMonth =
                   month + 1 == resDay.activityDate.split("-")[1]
                     ? ""
@@ -199,7 +207,7 @@ const Calendar = ({ updateDate }) => {
               className="btn btn-info day-details-btn add-goal-activities-calendar-btn"
               onClick={openGoalActivitiesModal}
             >
-              Add Goal Avtivities
+              Add Goal Activities
             </button>
           </span>
         </div>

@@ -22,6 +22,7 @@ const Header = () => {
             <i className="bi bi-calendar2-range-fill header-logo"></i>
             {/* <Link to="/"> */}
             <p className="nameHeader">GoalTracker</p>
+            <p className="version">V1.0.0</p>
             {/* </Link> */}
           </div>
           <div className="col bi-profile-container">

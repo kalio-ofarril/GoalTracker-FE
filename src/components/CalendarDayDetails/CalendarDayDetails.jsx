@@ -5,12 +5,15 @@ import {
   getDayData,
   createDailyEntry,
 } from "../../api/calendarApi";
+import Button from "react-bootstrap/Button";
+import { setGoalActivities as updateGoalActivities } from "../../api/calendarApi.js";
 
 import "./CalendarDayDetails.css";
 
 const CalendarDayDetails = ({ dayData }) => {
   const [goalActivities, setGoalActivities] = useState([]);
   const [comments, setComments] = useState("");
+  const [renderDay, setRenderDay] = useState(false);
 
   const { modal, monthNumber, yearNumber, renderer } =
     useContext(CalendarContext);
@@ -27,26 +30,35 @@ const CalendarDayDetails = ({ dayData }) => {
             let dayActivities = dayRes.data.activities.split(",");
             let activityDataList = [];
 
-            goalRes.data.activities.split(",").forEach((activity) => {
-              let activityData = {
-                name: activity,
-                checked: dayActivities.includes(activity),
-              };
-              activityDataList.push(activityData);
-            });
+            if (goalRes.data.activities == "") {
+              setGoalActivities([]);
+            } else {
+              goalRes.data.activities.split(",").forEach((activity) => {
+                let activityData = {
+                  name: activity,
+                  checked: dayActivities.includes(activity),
+                };
+                activityDataList.push(activityData);
+              });
+            }
 
             setComments(dayRes.data.comments);
             setGoalActivities(activityDataList);
           })
           .catch((res) => {
             let activityDataList = [];
-            goalRes.data.activities.split(",").forEach((activity) => {
-              let activityData = {
-                name: activity,
-                checked: false,
-              };
-              activityDataList.push(activityData);
-            });
+
+            if (goalRes.data.activities == "") {
+              setGoalActivities([]);
+            } else {
+              goalRes.data.activities.split(",").forEach((activity) => {
+                let activityData = {
+                  name: activity,
+                  checked: false,
+                };
+                activityDataList.push(activityData);
+              });
+            }
 
             setComments("");
             setGoalActivities(activityDataList);
@@ -56,7 +68,7 @@ const CalendarDayDetails = ({ dayData }) => {
         setComments("");
         setGoalActivities([]);
       });
-  }, [dayData, showModal]);
+  }, [dayData, showModal, renderDay]);
 
   const checkboxChange = (activity, event) => {
     let newChecked = [];
@@ -71,7 +83,28 @@ const CalendarDayDetails = ({ dayData }) => {
       }
       newChecked.push(obj);
     });
-    setGoalActivities(newChecked);
+    //setGoalActivities(newChecked);
+    let dayDataObj = {
+      userId: localStorage.userId,
+      activityDate: new Date(dayData),
+      comments: comments,
+    };
+    let activities = "";
+    newChecked.forEach((activity) => {
+      if (activity.checked) {
+        activities += activity.name + ",";
+      }
+    });
+    activities = activities.substring(0, activities.length - 1);
+    dayDataObj.activities = activities;
+    createDailyEntry(dayDataObj)
+      .then((res) => {
+        setGoalActivities(newChecked);
+        setRender(render ? false : true);
+      })
+      .catch((res) => {
+        console.log(res);
+      });
   };
 
   const commentChange = (event) => {
@@ -105,6 +138,33 @@ const CalendarDayDetails = ({ dayData }) => {
     setShowModal(true);
   };
 
+  const deleteActivity = (event) => {
+    let newActivities = "";
+    goalActivities.forEach((act) => {
+      if (act.name != event) {
+        newActivities += act.name + ",";
+      }
+    });
+    newActivities = newActivities.substring(0, newActivities.length - 1);
+
+    let dataObj = {
+      userId: localStorage.userId,
+      activityDate: new Date(new Date(dayData).toDateString()),
+      activities: newActivities,
+      isDelete: true,
+    };
+
+    let goalActivityArray = [dataObj];
+    updateGoalActivities(goalActivityArray)
+      .then((res) => {
+        setRenderDay(renderDay == true ? false : true);
+        saveActivities();
+      })
+      .catch((res) => {
+        console.log(res);
+      });
+  };
+
   return (
     <div className="row align-items-center detail-holder-top">
       <div className="col-12 full-height">
@@ -126,21 +186,42 @@ const CalendarDayDetails = ({ dayData }) => {
               ) : (
                 goalActivities.map((activity) => {
                   return (
-                    <div className="activity-checkbox-div" key={activity.name}>
-                      <input
-                        className="form-check-input activity-checkbox"
-                        type="checkbox"
-                        value={activity.name}
-                        id={activity.name}
-                        key={activity.name}
-                        checked={activity.checked}
-                        onChange={(event) => {
-                          checkboxChange(activity.name, event);
-                        }}
-                      />
-                      <label className="form-check-label">
-                        {activity.name.split("#")[0]}
-                      </label>
+                    <div
+                      className="row activity-checkbox-div"
+                      key={activity.name}
+                      style={{
+                        backgroundColor: "#" + activity.name.split("#")[1],
+                      }}
+                    >
+                      <div className="col-4">
+                        <input
+                          className="form-check-input activity-checkbox"
+                          type="checkbox"
+                          value={activity.name}
+                          id={activity.name}
+                          key={activity.name}
+                          checked={activity.checked}
+                          onChange={(event) => {
+                            checkboxChange(activity.name, event);
+                          }}
+                        />
+                      </div>
+                      <div className="col-4">
+                        <label className="form-check-label calendar-day-activity-label">
+                          {activity.name.split("#")[0]}
+                        </label>
+                      </div>
+                      <div className="col-4 calendar-day-detail-btn-container">
+                        <Button
+                          variant="danger"
+                          className="calenday-day-detail-delete-activity-btn"
+                          onClick={(event) => {
+                            deleteActivity(activity.name);
+                          }}
+                        >
+                          <i className="bi bi-dash-circle-fill calenday-day-detail-delete-activity-btn-icon"></i>
+                        </Button>
+                      </div>
                     </div>
                   );
                 })
