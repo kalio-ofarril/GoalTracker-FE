@@ -29,12 +29,20 @@ const Header = () => {
             {/* <Link to="/profile"> */}
             <Dropdown>
               <Dropdown.Toggle className="header-dropdown-btn">
-                <i className="bi bi-person-square bi-profile"></i>
+                {/* <i className="bi bi-person-square bi-profile"></i> */}
+                <i className="bi bi-list bi-profile"></i>
               </Dropdown.Toggle>
 
               <Dropdown.Menu>
                 <Dropdown.Item onClick={() => auth.logOut()}>
                   Sign Out
+                </Dropdown.Item>
+                <Dropdown.Item
+                  onClick={() =>
+                    window.open("https://youtu.be/JGy-NDEoWMk", "_blank")
+                  }
+                >
+                  Video Tutorial
                 </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>

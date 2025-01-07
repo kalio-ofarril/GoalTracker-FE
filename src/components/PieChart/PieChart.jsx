@@ -26,15 +26,17 @@ const PieChart = (props) => {
 
   useEffect(() => {
     let activities = {};
+    let activityColorMap = {};
 
     calendarMonth.forEach((week) => {
       week.forEach((day) => {
         day.activities.forEach((activity) => {
           if (activity != "") {
-            if (activity in activities) {
-              activities[activity] += 1;
+            if (activity.split("#")[0] in activities) {
+              activities[activity.split("#")[0]] += 1;
             } else {
-              activities[activity] = 1;
+              activities[activity.split("#")[0]] = 1;
+              activityColorMap[activity.split("#")[0]] = activity.split("#")[1];
             }
           }
         });
@@ -45,8 +47,8 @@ const PieChart = (props) => {
     let labels = [];
     let data = [];
     Object.keys(activities).forEach((key) => {
-      labels.push(key.split("#")[0]);
-      colors.push("#" + key.split("#")[1]);
+      labels.push(key);
+      colors.push("#" + activityColorMap[key]);
       data.push(activities[key]);
     });
 

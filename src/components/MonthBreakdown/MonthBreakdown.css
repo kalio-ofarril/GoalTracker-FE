@@ -16,3 +16,11 @@
     height: 100% !important;
     width: 100% !important;
 }
+
+.nav-link{
+    color: white !important;
+}
+
+.nav-link.active{
+    color: #46454d !important;
+}

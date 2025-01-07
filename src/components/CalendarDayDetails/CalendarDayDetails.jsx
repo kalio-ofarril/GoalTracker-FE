@@ -219,7 +219,7 @@ const CalendarDayDetails = ({ dayData }) => {
                             deleteActivity(activity.name);
                           }}
                         >
-                          <i className="bi bi-dash-circle-fill calenday-day-detail-delete-activity-btn-icon"></i>
+                          <i className="bi bi-trash3-fill calenday-day-detail-delete-activity-btn-icon"></i>
                         </Button>
                       </div>
                     </div>

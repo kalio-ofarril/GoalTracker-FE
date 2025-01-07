@@ -1,9 +1,10 @@
+import "./MonthBreakdown.css";
+
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 
 import PieChart from "../PieChart/PieChart";
-
-import "./MonthBreakdown.css";
+import Scores from "../Scores/Scores";
 
 const MonthBreakdown = () => {
   return (
@@ -19,6 +20,9 @@ const MonthBreakdown = () => {
             <Tabs defaultActiveKey="Pie" className="mb-3">
               <Tab eventKey="Pie" title="Pie">
                 <PieChart />
+              </Tab>
+              <Tab eventKey="Scores" title="Scores">
+                <Scores />
               </Tab>
             </Tabs>
           </div>

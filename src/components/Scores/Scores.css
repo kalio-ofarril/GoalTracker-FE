@@ -1,0 +1,8 @@
+.scores-month-score{
+    font-size: 2rem;
+}
+
+.scores-table-row{
+    overflow-y: auto;
+    max-height: 70%;
+}
